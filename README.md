@@ -1,5 +1,5 @@
 # ⚖️ LegalMind: AI Contract Risk Analyzer
-
+[![Live Demo](https://img.shields.io/badge/demo-Live%20App-blueviolet?style=for-the-badge&logo=vercel)](https://legalmind-frontend-eight.vercel.app)
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-High_Performance-green.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Event_Driven-orange.svg)
@@ -8,6 +8,8 @@
 **LegalMind** is a high-performance backend system designed for automated contract analysis. It orchestrates a complex **3-stage AI pipeline** involving OCR, Vector Search (RAG), and Ensemble Classification to detect legal risks with **97.74% accuracy**.
 
 While it includes a minimal React frontend for demonstration, the core value lies in its **robust API architecture, asynchronous task management, and custom ML pipelines**.
+
+> **🚀 [Try the Live App on Vercel](https://legalmind-frontend-eight.vercel.app)**
 
 ---
 
@@ -36,11 +38,12 @@ The system implements a custom ingestion pipeline using **LangChain** and **PyMu
 * **ML Orchestration:** LangChain, Hugging Face `transformers`
 * **Vector Database:** FAISS (Local in-memory speed)
 * **Embeddings:** `all-MiniLM-L6-v2` (Optimized for CPU inference)
-* **Storage & DB:** Supabase (PostgreSQL)
+* **Storage & DB:** Supabase (PostgreSQL + Object Storage).
 
 ### **Frontend Utility (`/legalmind-frontend`)**
 * *Minimal UI built with React & Vite to visualize the API outputs.*
-
+* **Framework:** React + Vite.
+* **Deployment:** Vercel (Production URL: `legalmind-frontend-eight.vercel.app`).
 ---
 
 ## ⚡ API Architecture
