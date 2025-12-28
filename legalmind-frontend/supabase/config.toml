@@ -1,0 +1,4 @@
+project_id = "jiegiteasjymrycylrmw"
+
+[functions.legal-chat]
+verify_jwt = false

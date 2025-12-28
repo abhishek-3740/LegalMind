@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+.env.local
+
+# Temporary files
+uploads/*
+!uploads/.gitkeep
+vector_db/*
+!vector_db/.gitkeep
+rag_storage/*
+!rag_storage/.gitkeep
+risk_analysis_results/*
+!risk_analysis_results/.gitkeep
+
+# Model cache - DON'T UPLOAD THIS!
+hf_model_cache/
+.cache/
+models/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

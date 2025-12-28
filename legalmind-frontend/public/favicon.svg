@@ -1,0 +1,27 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simplified Scale/Balance Icon -->
+  <path d="M16 4L6 10V16C6 21.25 10 25 16 28C22 25 26 21.25 26 16V10L16 4Z" fill="url(#gradient1)"/>
+  <rect x="14" y="10" width="4" height="2" rx="1" fill="url(#gradient2)"/>
+  <ellipse cx="10" cy="14" rx="3" ry="1" fill="url(#gradient2)"/>
+  <ellipse cx="22" cy="14" rx="3" ry="1" fill="url(#gradient2)"/>
+  <line x1="10" y1="14" x2="14" y2="11" stroke="url(#gradient2)" stroke-width="1"/>
+  <line x1="22" y1="14" x2="18" y2="11" stroke="url(#gradient2)" stroke-width="1"/>
+  <path d="M13 19H19V25H13V19Z" fill="url(#gradient3)"/>
+  <line x1="14" y1="21" x2="18" y2="21" stroke="white" stroke-width="1" stroke-linecap="round"/>
+  <line x1="14" y1="23" x2="17" y2="23" stroke="white" stroke-width="1" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="gradient1" x1="16" y1="4" x2="16" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF6B35"/>
+      <stop offset="100%" stop-color="#4A90E2"/>
+    </linearGradient>
+    <linearGradient id="gradient2" x1="10" y1="10" x2="22" y2="15" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF6B35"/>
+      <stop offset="100%" stop-color="#4A90E2"/>
+    </linearGradient>
+    <linearGradient id="gradient3" x1="13" y1="19" x2="19" y2="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4A90E2"/>
+      <stop offset="100%" stop-color="#2E5C8A"/>
+    </linearGradient>
+  </defs>
+</svg>
+

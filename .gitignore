@@ -1,0 +1,26 @@
+# --- Master .gitignore for LegalMind ---
+
+# 1. Secrets (NEVER UPLOAD)
+.env
+.env.local
+.env.*
+
+# 2. Dependencies (Heavy folders)
+node_modules/
+venv/
+ocr_venv/
+__pycache__/
+*.pyc
+
+# 3. Build Outputs & Generated Data
+dist/
+build/
+coverage/
+vector_db/
+rag_storage/
+hf_model_cache/
+uploads/
+
+# 4. System Files
+.DS_Store
+Thumbs.db
