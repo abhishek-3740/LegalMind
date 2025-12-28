@@ -19,3 +19,8 @@ torch
 tqdm
 aiofiles
 PyJWT
+requests
+scipy
+numpy
+accelerate
+bitsandbytes
