@@ -9,7 +9,7 @@
 
 While it includes a minimal React frontend for demonstration, the core value lies in its **robust API architecture, asynchronous task management, and custom ML pipelines**.
 
-> **🚀 [Try the Live App on Vercel](https://legalmind-frontend-eight.vercel.app)**
+> **🚀 [Try the Live App on Vercel](https://legalmindfrontend.vercel.app/)**
 
 ---
 
