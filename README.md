@@ -64,24 +64,33 @@ The system exposes a RESTful API designed for scalability. Key endpoints include
 
 ## 🏗️ System Design
 
-The architecture follows a modular, event-driven pattern to ensure separation of concerns between Ingestion, Inference, and Storage.
+The architecture follows a modular, three-stage pipeline to handle secure document ingestion, high-accuracy risk classification, and generative reporting.
 
 ```mermaid
 graph TD
-    Client[Client Request] -->|Async| API[FastAPI Controller]
-    API -->|Dispatch| Queue[Job Queue]
-    
-    subgraph "ML Pipeline (Worker)"
-        Queue -->|Step 1| Loader[Document Loader & OCR]
-        Loader -->|Step 2| Splitter[Recursive Character Splitter]
-        Splitter -->|Step 3| Embed[Local Embedding Model]
-        Embed -->|Step 4| FAISS[Vector Index Construction]
-        Splitter -->|Step 5| Classifier[Ensemble Risk Model]
+    User((User)) -->|Upload PDF| FastAPI
+
+    subgraph "Stage 1: Ingestion (Privacy)"
+        FastAPI[FastAPI Gateway] --> Hybrid["Hybrid Extraction<br/>(PyMuPDF + Tesseract OCR)"]
+        Hybrid -->|Chunking & Vectorization| FAISS[(FAISS)]
     end
-    
-    Classifier -->|Write Results| DB[(Supabase SQL)]
-    FAISS -->|Persist Index| Storage[Object Storage]
-```
+
+    FAISS --> Ensemble
+
+    subgraph "Stage 2: The 97% Filter"
+        Ensemble["Ensemble Classifier (97.7% Acc)"] -->|Safe Content| Safe["Ignore / Archive"]
+        Ensemble -->|🚨 HIGH RISK >70%| Risky["Risky Clauses Only"]
+    end
+
+    Risky -->|Inject Context| LLM
+
+    subgraph "Stage 3: Generative"
+        LLM["LLM Consultant"] -->|Generate| Report["Generate Detailed Report<br/>on Risky Clauses"]
+    end
+
+    Report -->|Save Results| DB[(Supabase Cloud)]
+    DB -->|Deliver| UI["Interactive Report & Chat"]
+ ```
 
 ## 📦 Local Setup
 
