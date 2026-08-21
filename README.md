@@ -5,11 +5,21 @@
 ![Architecture](https://img.shields.io/badge/architecture-Event_Driven-orange.svg)
 ![AI](https://img.shields.io/badge/AI-LangChain_RAG-purple.svg)
 
-**LegalMind** is a high-performance backend system designed for automated contract analysis. It orchestrates a complex **3-stage AI pipeline** involving OCR, Vector Search (RAG), and Ensemble Classification to detect legal risks with **97.74% accuracy**.
+**LegalMind** is a high-performance backend system designed for automated contract analysis. It orchestrates a complex **3-stage AI pipeline** involving OCR, Vector Search (RAG), and Ensemble Classification to detect legal risks, powered by a fine-tuned **Legal-BERT + DeBERTa-v3** ensemble (**97.74% accuracy, reported by the model's authors**).
 
 While it includes a minimal React frontend for demonstration, the core value lies in its **robust API architecture, asynchronous task management, and custom ML pipelines**.
 
-> **🚀 [Try the Live App on Vercel](https://legalmindfrontend.vercel.app/)**
+> **🚀 [Try the Live App on Vercel](https://legalmind-frontend-eight.vercel.app/)**
+
+---
+
+## 🙏 Model Attribution
+
+The risk-classification ensemble is **not trained in this repository**. It is integrated from Hugging Face:
+
+> **[`Nikhil-AI-Labs/legal-contract-classifier-best`](https://huggingface.co/Nikhil-AI-Labs/legal-contract-classifier-best)** — a fine-tuned Legal-BERT + DeBERTa-v3 ensemble (97.74% accuracy as reported by its authors). All credit for model training and evaluation belongs to its authors.
+
+Everything around the model — OCR ingestion, chunking, embeddings, FAISS retrieval, the FastAPI service layer, async job management, and Supabase persistence — is built here.
 
 ---
 
@@ -18,8 +28,8 @@ While it includes a minimal React frontend for demonstration, the core value lie
 ### **1. Advanced AI Pipeline**
 The system implements a custom ingestion pipeline using **LangChain** and **PyMuPDF**:
 * **Hybrid OCR Engine:** Intelligently switches between text extraction and OCR (Tesseract) based on document density.
-* **Ensemble Risk Detection:** A proprietary classification model combining **Legal-BERT** and **DeBERTa** architectures to flag specific clauses (e.g., *Unlimited Liability*, *Unfair Termination*).
-* **Local RAG System:** Uses `sentence-transformers/all-MiniLM-L6-v2` (running on CPU) and **FAISS** for zero-latency, private vector search.
+* **Ensemble Risk Detection:** Integrates the fine-tuned **[Legal-BERT + DeBERTa-v3 ensemble](https://huggingface.co/Nikhil-AI-Labs/legal-contract-classifier-best)** (97.74% accuracy reported by its authors) to flag specific clauses (e.g., *Unlimited Liability*, *Unfair Termination*).
+* **Local RAG System:** Uses `sentence-transformers/all-MiniLM-L6-v2` (running on CPU) and **FAISS** for low-latency, private vector search.
 
 ### **2. Asynchronous Job Processing**
 * Built on **FastAPI BackgroundTasks** to handle long-running ML inference without blocking API response times.
@@ -27,7 +37,7 @@ The system implements a custom ingestion pipeline using **LangChain** and **PyMu
 
 ### **3. Scalable Data Infrastructure**
 * **Vector persistence:** FAISS indices are serialized and backed up to cloud storage.
-* **Supabase Integration:** Acts as a managed PostgreSQL + Storage layer to persist transaction logs, chat history, and document metadata.
+* **Supabase Integration:** Acts as a managed PostgreSQL + Storage layer to persist transaction logs, chat history, and document metadata — with **row-level security** enforcing per-user document isolation.
 
 ---
 
@@ -36,6 +46,7 @@ The system implements a custom ingestion pipeline using **LangChain** and **PyMu
 ### **Core Backend (`/legalmind-backend`)**
 * **API Framework:** FastAPI (Pydantic models, Dependency Injection)
 * **ML Orchestration:** LangChain, Hugging Face `transformers`
+* **Risk Classifier:** [`Nikhil-AI-Labs/legal-contract-classifier-best`](https://huggingface.co/Nikhil-AI-Labs/legal-contract-classifier-best) (integrated via `snapshot_download`)
 * **Vector Database:** FAISS (Local in-memory speed)
 * **Embeddings:** `all-MiniLM-L6-v2` (Optimized for CPU inference)
 * **Storage & DB:** Supabase (PostgreSQL + Object Storage).
@@ -77,8 +88,8 @@ graph TD
 
     FAISS --> Ensemble
 
-    subgraph "Stage 2: The 97% Filter"
-        Ensemble["Ensemble Classifier (97.7% Acc)"] -->|Safe Content| Safe["Ignore / Archive"]
+    subgraph "Stage 2: The Risk Filter"
+        Ensemble["Ensemble Classifier<br/>(HF: Nikhil-AI-Labs, 97.74% reported)"] -->|Safe Content| Safe["Ignore / Archive"]
         Ensemble -->|🚨 HIGH RISK >70%| Risky["Risky Clauses Only"]
     end
 
@@ -130,4 +141,3 @@ npm run dev
 
 # UI runs on http://localhost:8080 (or 5173)
 ```
-
