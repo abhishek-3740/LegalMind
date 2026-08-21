@@ -5,7 +5,7 @@
 ![Architecture](https://img.shields.io/badge/architecture-Event_Driven-orange.svg)
 ![AI](https://img.shields.io/badge/AI-LangChain_RAG-purple.svg)
 
-**LegalMind** is a high-performance backend system designed for automated contract analysis. It orchestrates a complex **3-stage AI pipeline** involving OCR, Vector Search (RAG), and Ensemble Classification to detect legal risks, powered by a fine-tuned **Legal-BERT + DeBERTa-v3** ensemble (**97.74% accuracy, reported by the model's authors**).
+**LegalMind** is a high-performance backend system designed for automated contract analysis. It orchestrates a complex **3-stage AI pipeline** involving OCR, Vector Search (RAG), and Ensemble Classification to detect legal risks, powered by a **Legal-BERT + DeBERTa-v3** ensemble (**97.74% accuracy**) fine-tuned by my teammate Nikhil.
 
 While it includes a minimal React frontend for demonstration, the core value lies in its **robust API architecture, asynchronous task management, and custom ML pipelines**.
 
@@ -13,13 +13,11 @@ While it includes a minimal React frontend for demonstration, the core value lie
 
 ---
 
-## 🙏 Model Attribution
+## 🙏 Team & Model Attribution
 
-The risk-classification ensemble is **not trained in this repository**. It is integrated from Hugging Face:
+This is a two-person project. The risk-classification ensemble was **trained and evaluated by my teammate Nikhil** — a fine-tuned Legal-BERT + DeBERTa-v3 ensemble (97.74% accuracy). Credit for model training belongs to him.
 
-> **[`Nikhil-AI-Labs/legal-contract-classifier-best`](https://huggingface.co/Nikhil-AI-Labs/legal-contract-classifier-best)** — a fine-tuned Legal-BERT + DeBERTa-v3 ensemble (97.74% accuracy as reported by its authors). All credit for model training and evaluation belongs to its authors.
-
-Everything around the model — OCR ingestion, chunking, embeddings, FAISS retrieval, the FastAPI service layer, async job management, and Supabase persistence — is built here.
+My contribution is everything around the model — OCR ingestion, chunking, embeddings, FAISS retrieval, the FastAPI service layer, async job management, Supabase persistence with row-level security, and the frontend.
 
 ---
 
@@ -28,7 +26,7 @@ Everything around the model — OCR ingestion, chunking, embeddings, FAISS retri
 ### **1. Advanced AI Pipeline**
 The system implements a custom ingestion pipeline using **LangChain** and **PyMuPDF**:
 * **Hybrid OCR Engine:** Intelligently switches between text extraction and OCR (Tesseract) based on document density.
-* **Ensemble Risk Detection:** Integrates the fine-tuned **[Legal-BERT + DeBERTa-v3 ensemble](https://huggingface.co/Nikhil-AI-Labs/legal-contract-classifier-best)** (97.74% accuracy reported by its authors) to flag specific clauses (e.g., *Unlimited Liability*, *Unfair Termination*).
+* **Ensemble Risk Detection:** A **Legal-BERT + DeBERTa-v3 ensemble** (97.74% accuracy, fine-tuned by my teammate Nikhil) flags specific clauses (e.g., *Unlimited Liability*, *Unfair Termination*).
 * **Local RAG System:** Uses `sentence-transformers/all-MiniLM-L6-v2` (running on CPU) and **FAISS** for low-latency, private vector search.
 
 ### **2. Asynchronous Job Processing**
@@ -46,7 +44,7 @@ The system implements a custom ingestion pipeline using **LangChain** and **PyMu
 ### **Core Backend (`/legalmind-backend`)**
 * **API Framework:** FastAPI (Pydantic models, Dependency Injection)
 * **ML Orchestration:** LangChain, Hugging Face `transformers`
-* **Risk Classifier:** [`Nikhil-AI-Labs/legal-contract-classifier-best`](https://huggingface.co/Nikhil-AI-Labs/legal-contract-classifier-best) (integrated via `snapshot_download`)
+* **Risk Classifier:** Legal-BERT + DeBERTa-v3 ensemble by my teammate Nikhil (loaded via `snapshot_download`)
 * **Vector Database:** FAISS (Local in-memory speed)
 * **Embeddings:** `all-MiniLM-L6-v2` (Optimized for CPU inference)
 * **Storage & DB:** Supabase (PostgreSQL + Object Storage).
@@ -89,7 +87,7 @@ graph TD
     FAISS --> Ensemble
 
     subgraph "Stage 2: The Risk Filter"
-        Ensemble["Ensemble Classifier<br/>(HF: Nikhil-AI-Labs, 97.74% reported)"] -->|Safe Content| Safe["Ignore / Archive"]
+        Ensemble["Ensemble Classifier<br/>(by teammate Nikhil, 97.74% acc)"] -->|Safe Content| Safe["Ignore / Archive"]
         Ensemble -->|🚨 HIGH RISK >70%| Risky["Risky Clauses Only"]
     end
 
